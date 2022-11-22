@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useLayoutEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Images } from './components/AttachedImages';
 import { Benefits } from './components/Benefits';
@@ -10,7 +10,7 @@ type DetailedJobProps = {}
 export const DetailedJob: FC<DetailedJobProps> = () => {
 
     const params = useParams()
-    const data = JSON.parse(localStorage.getItem('data')!) as DataProps[]
+    const data = JSON.parse(localStorage.getItem('data') || '') as DataProps[]
     const dataElement = data.find(el => el.id === params.productID)!
     const date = new Date(dataElement.createdAt).toLocaleDateString();
     const descriptionParagraph1 = (str: string) => {
@@ -43,6 +43,26 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
 
     const lat = dataElement.location.lat
     const long = dataElement.location.long
+    const [salaryPosition, setSalaryPosition] = useState(0)
+
+    const getPosition = (titleHeight: number, salaryHeight: number) => {
+        const salaryOffset = titleHeight - salaryHeight
+        setSalaryPosition(salaryOffset)
+    }
+
+    useLayoutEffect(() => {
+        //@ts-ignore tag
+        let salary = document.getElementById('salary')!.clientHeight
+        console.log(salary);
+
+        let title = document.getElementById('title')!.clientHeight
+        console.log(title);
+
+        getPosition(title, salary)
+    }, [])
+    console.log(salaryPosition);
+
+
 
     return (
         <div>
@@ -51,7 +71,7 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                     <span className="text-2xl font-bold font-sans pb-2 sm:border-b sm:pb-3">Job Details</span>
                     <div className='flex flex-row items-center text-base sm:pt-5'>
                         <img alt='bookmark' className=' mr-4 h-5 w-4' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMjMiIHZpZXdCb3g9IjAgMCAxOSAyMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xLjUgNC4wMDAxNkMxLjUgMi41Mjc0IDIuNjkzOTEgMS4zMzM1IDQuMTY2NjcgMS4zMzM1SDE0LjgzMzNDMTYuMzA2MSAxLjMzMzUgMTcuNSAyLjUyNzQgMTcuNSA0LjAwMDE2VjE5Ljk5MzZDMTcuNSAyMS4xNTk1IDE2LjEwOSAyMS43NjM5IDE1LjI1NjcgMjAuOTY4MkwxMC40MDk5IDE2LjQ0MjhDOS44OTc2MSAxNS45NjQ1IDkuMTAyMzkgMTUuOTY0NSA4LjU5MDA3IDE2LjQ0MjhMMy43NDMyNyAyMC45NjgyQzIuODkxMDQgMjEuNzYzOSAxLjUgMjEuMTU5NSAxLjUgMTkuOTkzNlY0LjAwMDE2WiIgc3Ryb2tlPSIjNzA3NzhCIiBzdHJva2Utd2lkdGg9IjIiLz4KPC9zdmc+Cg==' />
-                        <span className=''>Save to my list</span>
+                        <span>Save to my list</span>
                         <img alt='share' className='h-5 w-18 ml-8 mr-4' src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAxOSAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMy41NCAxNC45MDk2TDYuNDEgMTAuNzQzQzYuNDYgMTAuNTEyIDYuNSAxMC4yODExIDYuNSAxMC4wNDAyQzYuNSA5Ljc5OTIgNi40NiA5LjU2ODI3IDYuNDEgOS4zMzczNUwxMy40NiA1LjIxMDg0QzE0IDUuNzEyODUgMTQuNzEgNi4wMjQxIDE1LjUgNi4wMjQxQzE3LjE2IDYuMDI0MSAxOC41IDQuNjc4NzEgMTguNSAzLjAxMjA1QzE4LjUgMS4zNDUzOCAxNy4xNiAwIDE1LjUgMEMxMy44NCAwIDEyLjUgMS4zNDUzOCAxMi41IDMuMDEyMDVDMTIuNSAzLjI1MzAxIDEyLjU0IDMuNDgzOTQgMTIuNTkgMy43MTQ4Nkw1LjU0IDcuODQxMzdDNSA3LjMzOTM2IDQuMjkgNy4wMjgxMSAzLjUgNy4wMjgxMUMxLjg0IDcuMDI4MTEgMC41IDguMzczNDkgMC41IDEwLjA0MDJDMC41IDExLjcwNjggMS44NCAxMy4wNTIyIDMuNSAxMy4wNTIyQzQuMjkgMTMuMDUyMiA1IDEyLjc0MSA1LjU0IDEyLjIzOUwxMi42NiAxNi40MTU3QzEyLjYxIDE2LjYyNjUgMTIuNTggMTYuODQ3NCAxMi41OCAxNy4wNjgzQzEyLjU4IDE4LjY4NDcgMTMuODkgMjAgMTUuNSAyMEMxNy4xMSAyMCAxOC40MiAxOC42ODQ3IDE4LjQyIDE3LjA2ODNDMTguNDIgMTUuNDUxOCAxNy4xMSAxNC4xMzY1IDE1LjUgMTQuMTM2NUMxNC43NCAxNC4xMzY1IDE0LjA2IDE0LjQzNzggMTMuNTQgMTQuOTA5NloiIGZpbGw9IiM3MDc3OEIiLz4KPC9zdmc+Cg==' />
                         <span>Share</span>
                     </div>
@@ -64,7 +84,9 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                 </div>
                 <div className='flex relative flex-row sm:justify-between'>
                     <span className='text-gray-400 font-sans my-7px justify-between sm:my-6 sm:text-xs'>Posted {date}</span>
-                    <div id='salary' className='flex flex-col sm:flex-col-reverse md:absolute right-0 bottom-90px sm:mb-2 sm:items-end'>
+                    <div id='salary'
+                        style={{ bottom: `${salaryPosition} px` }}
+                        className='flex flex-col sm:flex-col-reverse md:absolute right-0 sm:mb-2 sm:items-end'>
                         <span className="text-xl text-dark font-bold font-sans">$ {dataElement.salary}</span>
                         <span className="text-lg text-dark font-normal font-sans">Brutto, per year</span>
                     </div>
