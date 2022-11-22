@@ -1,5 +1,5 @@
 import { FC, useLayoutEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Images } from './components/AttachedImages';
 import { Benefits } from './components/Benefits';
 import { EmploymentType } from './components/EmploymentType';
@@ -9,9 +9,8 @@ import { ChevronLeftIcon } from '@heroicons/react/20/solid'
 type DetailedJobProps = {}
 export const DetailedJob: FC<DetailedJobProps> = () => {
 
-    const params = useParams()
-    const data = JSON.parse(localStorage.getItem('data') || '') as DataProps[]
-    const dataElement = data.find(el => el.id === params.productID)!
+    const location = useLocation()
+    const dataElement = location.state as DataProps
     const date = new Date(dataElement.createdAt).toLocaleDateString();
     const descriptionParagraph1 = (str: string) => {
         const text = str.split(' ')
@@ -45,22 +44,24 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
     const long = dataElement.location.long
     const [salaryPosition, setSalaryPosition] = useState(0)
 
-    const getPosition = (titleHeight: number, salaryHeight: number) => {
-        const salaryOffset = titleHeight - salaryHeight
-        setSalaryPosition(salaryOffset)
+    const getPosition = (titleHeight: number) => {
+        switch (titleHeight) {
+            case 36:
+                setSalaryPosition(15)
+                break;
+            case 72:
+                setSalaryPosition(52)
+                break;
+            case 108:
+                setSalaryPosition(90)
+        }
     }
 
     useLayoutEffect(() => {
         //@ts-ignore tag
-        let salary = document.getElementById('salary')!.clientHeight
-        console.log(salary);
-
         let title = document.getElementById('title')!.clientHeight
-        console.log(title);
-
-        getPosition(title, salary)
+        getPosition(title)
     }, [])
-    console.log(salaryPosition);
 
 
 
@@ -77,7 +78,7 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                     </div>
                 </div>
                 <div className="inline-flex rounded-md shadow max-w-fit mt-39 mb-8 sm:hidden">
-                    <a href={`/${dataElement.id}`} key={dataElement.id} className="inline-flex items-center justify-center rounded-md border border-transparent bg-dark w-32 h-52 px-6 py-4 text-sm text-white uppercase ">Apply now</a>
+                    <Link to={`/${dataElement.id}`} key="button1" className="inline-flex items-center justify-center rounded-md border border-transparent bg-dark w-32 h-52 px-6 py-4 text-sm text-white uppercase ">Apply now</Link>
                 </div>
                 <div id='title' className=' flex flex-row w-723px justify-between sm:w-11/12 tracking-tightest sm:mt-8'>
                     <span className="text-2.5xl text-dark font-bold flex-wrap max-w-lg sm:h-auto sm:max-w-sm">{dataElement.title}</span>
@@ -85,7 +86,7 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                 <div className='flex relative flex-row sm:justify-between'>
                     <span className='text-gray-400 font-sans my-7px justify-between sm:my-6 sm:text-xs'>Posted {date}</span>
                     <div id='salary'
-                        style={{ bottom: `${salaryPosition} px` }}
+                        style={{ bottom: `${salaryPosition}px` }}
                         className='flex flex-col sm:flex-col-reverse md:absolute right-0 sm:mb-2 sm:items-end'>
                         <span className="text-xl text-dark font-bold font-sans">$ {dataElement.salary}</span>
                         <span className="text-lg text-dark font-normal font-sans">Brutto, per year</span>
@@ -108,7 +109,7 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                     }
                 </span>
                 <div className="inline-flex rounded-md shadow max-w-fit w-32 h-52 mt-39 mb-86 sm:self-center">
-                    <a key={dataElement.id} href={`/${dataElement.id}`} className="inline-flex items-center justify-center rounded-md border border-transparent bg-dark w-32 h-52 px-6 py-4 text-sm text-white uppercase">Apply now</a>
+                    <Link key='button2' to={`/${dataElement.id}`} className="inline-flex items-center justify-center rounded-md border border-transparent bg-dark w-32 h-52 px-6 py-4 text-sm text-white uppercase">Apply now</Link>
                 </div>
                 <div className='sm:flex sm:flex-col-reverse'>
                     <div>
@@ -174,10 +175,10 @@ export const DetailedJob: FC<DetailedJobProps> = () => {
                     </div>
                 </div>
             </div>
-            <a href='/' className="flex flex-row items-center justify-center rounded-lg border border-transparent bg-emp_bg border-slate-300 w-56 h-12 px-6 py-4 ml-64 mt-56 mb-40 text-sm font-bold text-emp_text uppercase sm:hidden">
+            <Link to='/' className="flex flex-row items-center justify-center rounded-lg border border-transparent bg-emp_bg border-slate-300 w-56 h-12 px-6 py-4 ml-64 mt-56 mb-40 text-sm font-bold text-emp_text uppercase sm:hidden">
                 <ChevronLeftIcon className="h-5 w-5 text-gray-400" />
                 Return to job board
-            </a>
+            </Link>
         </div>
     )
 }
