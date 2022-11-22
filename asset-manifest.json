@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Sureplex/static/css/main.6d07de37.css",
+    "main.js": "/Sureplex/static/js/main.97552e2f.js",
+    "static/js/787.a86f3764.chunk.js": "/Sureplex/static/js/787.a86f3764.chunk.js",
+    "index.html": "/Sureplex/index.html",
+    "main.6d07de37.css.map": "/Sureplex/static/css/main.6d07de37.css.map",
+    "main.97552e2f.js.map": "/Sureplex/static/js/main.97552e2f.js.map",
+    "787.a86f3764.chunk.js.map": "/Sureplex/static/js/787.a86f3764.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6d07de37.css",
+    "static/js/main.97552e2f.js"
+  ]
+}
