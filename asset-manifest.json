@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Sureplex/static/css/main.6d07de37.css",
-    "main.js": "/Sureplex/static/js/main.97552e2f.js",
+    "main.css": "/Sureplex/static/css/main.2cb97d92.css",
+    "main.js": "/Sureplex/static/js/main.9a991400.js",
     "static/js/787.a86f3764.chunk.js": "/Sureplex/static/js/787.a86f3764.chunk.js",
     "index.html": "/Sureplex/index.html",
-    "main.6d07de37.css.map": "/Sureplex/static/css/main.6d07de37.css.map",
-    "main.97552e2f.js.map": "/Sureplex/static/js/main.97552e2f.js.map",
+    "main.2cb97d92.css.map": "/Sureplex/static/css/main.2cb97d92.css.map",
+    "main.9a991400.js.map": "/Sureplex/static/js/main.9a991400.js.map",
     "787.a86f3764.chunk.js.map": "/Sureplex/static/js/787.a86f3764.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6d07de37.css",
-    "static/js/main.97552e2f.js"
+    "static/css/main.2cb97d92.css",
+    "static/js/main.9a991400.js"
   ]
 }
