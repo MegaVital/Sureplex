@@ -36,7 +36,6 @@ export const JobList: FC<JobListProps> = () => {
     }).then((response: any) => {
       const userData = response.data as DataProps[]
       setData(userData);
-      localStorage.setItem('data', JSON.stringify(userData))
     })
   }
   useEffect(
